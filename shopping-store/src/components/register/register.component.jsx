@@ -23,6 +23,7 @@ export default class Register extends Component {
     event.preventDefault();
     // console.log('Form submit triggered');
     const { displayName, email, password, confirmPassword } = this.state;
+    
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
