@@ -53,8 +53,12 @@ export default class SignIn extends Component {
             value={password}
             required
           />
-          <Button type="submit">Login</Button>
-          <Button onClick={signInWithGoogle}>Google Login</Button>
+          <div className="buttons">
+            <Button type="submit">Login</Button>
+            <Button isGoogleAuth onClick={signInWithGoogle}>
+              Google Login
+            </Button>
+          </div>
         </form>
       </div>
     );
