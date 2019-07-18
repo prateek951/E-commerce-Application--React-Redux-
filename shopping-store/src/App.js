@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import Header from './components/header/header.component';
 // Page components
@@ -32,13 +32,20 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
   render() {
+    const { currentUser } = this.props;
     return (
       <div>
         <Header />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={RegisterLoginFormPage} />
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              currentUser ? <Redirect to="/" /> : <RegisterLoginFormPage />
+            }
+          />
         </Switch>
       </div>
     );
@@ -50,8 +57,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(setCurrentUser(user));
   }
 });
-
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser
+});
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);
