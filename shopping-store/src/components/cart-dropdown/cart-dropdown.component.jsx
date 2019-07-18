@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../button/button.component';
+import CartItem from '../cart-item/cart-item.component';
 import './cart-dropdown.styles.scss';
 import { connect } from 'react-redux';
 
@@ -7,13 +8,11 @@ const CartDropdown = ({ cartItems }) => {
   return (
     <div className="cart-dropdown">
       <div className="cart-items">
-        {cartItems.map(cartItem => (
-          <div key={cartItem.id}>
-            <h1>
-              {cartItem.name} | {cartItem.price}
-            </h1>
-          </div>
-        ))}
+        {cartItems.length > 0 &&
+          cartItems.map(cartItem => (
+            <CartItem key={cartItem.id} item={cartItem} />
+          ))}
+        {(cartItems.length === 0 || !cartItems) && 'Your cart is empty'}
       </div>
       <Button>Checkout</Button>
     </div>
