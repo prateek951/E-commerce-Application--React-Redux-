@@ -4,5 +4,5 @@ import cartItemReducer from './cart-item/cart-item.reducer';
 
 export default combineReducers({
   user: userReducer,
-  cartItem: cartItemReducer
+  cart: cartItemReducer
 });
