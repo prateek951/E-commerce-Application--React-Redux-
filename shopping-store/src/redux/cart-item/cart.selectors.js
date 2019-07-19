@@ -20,3 +20,12 @@ export const selectCartItemsCount = createSelector(
       return netQuantity;
     }, 0)
 );
+
+export const selectCartTotal = createSelector(
+  [selectCartItems],
+  cartItems =>
+    cartItems.reduce((netCartTotal, cartItem) => {
+      netCartTotal += cartItem.price * cartItem.quantity;
+      return netCartTotal;
+    }, 0)
+);
