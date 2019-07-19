@@ -19,3 +19,11 @@ export const removeCartItem = cartItemToRemove => {
     payload: cartItemToRemove
   };
 };
+
+export const decreaseCartItemQuantity = cartItem => {
+  return {
+    type: CartItemActionTypes.DECREASE_CART_ITEM_QUANTITY,
+    payload: cartItem
+  };
+};
+
