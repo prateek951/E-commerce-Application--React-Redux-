@@ -38,6 +38,10 @@ class App extends React.Component {
         });
       }
       setCurrentUser(userAuth);
+      /**
+       * This code can be used in any project with little tweaks to 
+       * add values to the firestore. 
+       */
       // TEMPORARY CODE TO ADD COLLECTIONS TO OUR FIREBASE (NOT REQUIRED FOR PRODUCTION)
       // addCollectionAndDocuments(
       //   'collections',
