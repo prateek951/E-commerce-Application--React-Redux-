@@ -22,6 +22,18 @@ firebase.initializeApp(config);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+  const collectionRef = firestore.collection(collectionKey);
+  const batch = firestore.batch();
+  objectsToAdd.forEach(object => {
+    const newDocRef = collectionRef.doc();
+    console.log(newDocRef);
+    batch.set(newDocRef, object);
+  });
+  // Fire off the batch request 
+  return await batch.commit();
+};
+
 // 3. Set up the Google OAuth Provider
 
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -48,9 +60,17 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
   // no need to create user profile again
   const userRef = firestore.doc(`users/${userAuth.uid}`);
 
-  const snapshotRef = await userRef.get();
+  // 3. Get the reference to the users collection
+  // const collectionRef = firestore.collection('users');
 
-  if (!snapshotRef.exists) {
+  const snapshot = await userRef.get();
+  // const collectionSnapshot = await collectionRef.get();
+
+  // Users Collection
+  // console.log({ collection: collectionSnapshot.docs.map(doc => console.log(doc.data()));});
+
+  // console.log('here is my snapshot for collection', collectionSnapshot);
+  if (!snapshot.exists) {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
