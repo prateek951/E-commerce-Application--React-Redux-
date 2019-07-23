@@ -1,6 +1,5 @@
 import React from 'react';
 import './header.styles.scss';
-import { Link } from 'react-router-dom';
 import { ReactComponent as ApplicationLogo } from '../../assets/crown.svg';
 import { auth } from '../../firebase/firebase.utils';
 import { connect } from 'react-redux';
@@ -13,7 +12,6 @@ import {
   HeaderContainer,
   LogoContainer,
   OptionsContainer,
-  OptionDiv,
   OptionLink
 } from './header.styles';
 
@@ -31,7 +29,9 @@ const Header = ({ currentUser, hidden }) => {
         <OptionLink to="/shop">Shop</OptionLink>
         <OptionLink to="/contact">Contact</OptionLink>
         {currentUser ? (
-          <OptionDiv onClick={onLogout}>Logout</OptionDiv>
+          <OptionLink as="div" onClick={onLogout}>
+            Logout
+          </OptionLink>
         ) : (
           <OptionLink to="/signin">Login</OptionLink>
         )}
