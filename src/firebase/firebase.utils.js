@@ -22,7 +22,10 @@ firebase.initializeApp(config);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
-export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => {
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
   const collectionRef = firestore.collection(collectionKey);
   const batch = firestore.batch();
   objectsToAdd.forEach(object => {
@@ -30,8 +33,27 @@ export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) => 
     console.log(newDocRef);
     batch.set(newDocRef, object);
   });
-  // Fire off the batch request 
+  // Fire off the batch request
   return await batch.commit();
+};
+
+export const convertCollectionsSnapshotToMap = collections => {
+  const transformedCollection = collections.docs.map(doc => {
+    const { title, items } = doc.data();
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items
+    };
+  });
+  // console.log(transformedCollection);
+  // Convert the array of collections into an object of collections
+  // for which reduce method is the best to do so.
+  return transformedCollection.reduce((acc, collection) => {
+    acc[collection.title.toLowerCase()] = collection;
+    return acc;
+  }, {});
 };
 
 // 3. Set up the Google OAuth Provider
