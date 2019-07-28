@@ -26,14 +26,29 @@ class Shop extends React.Component {
   componentDidMount() {
     const { updateCollections } = this.props;
     const collectionRef = firestore.collection('collections');
+    // Observable Observer Pattern
+    // collectionRef.onSnapshot(async snapshot => {
+    //   console.log(snapshot);
+    //   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    //   // console.log(collectionsMap);
+    //   updateCollections(collectionsMap);
+    //   this.setState({ loading: false });
+    // });
 
-    collectionRef.onSnapshot(async snapshot => {
-      console.log(snapshot);
+    // Promise Pattern
+    collectionRef.get().then(snapshot => {
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      // console.log(collectionsMap);
       updateCollections(collectionsMap);
       this.setState({ loading: false });
     });
+
+    // Using the native fetch call
+    // const projectId = 'ecommerce-db-543ac';
+    // fetch(
+    //   `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/collections`
+    // )
+    //   .then(response => response.json())
+    //   .then(collections => console.log(collections));
   }
 
   render() {
