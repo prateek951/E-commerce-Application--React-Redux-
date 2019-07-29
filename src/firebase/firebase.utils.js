@@ -58,16 +58,16 @@ export const convertCollectionsSnapshotToMap = collections => {
 
 // 3. Set up the Google OAuth Provider
 
-const provider = new firebase.auth.GoogleAuthProvider();
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
 
 // 4. Enable Google popup to always appear whenever we use
 // the Google OAuth Provider for our application's
 // authentication and login
 
-provider.setCustomParameters({ prompt: 'select_account' });
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 // 5. Set the sign in with Google
-export const signInWithGoogle = () => auth.signInWithPopup(provider);
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 // 6. Create user profile document
 export const createUserProfileDocument = async (userAuth, additionalData) => {

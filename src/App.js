@@ -26,28 +26,29 @@ class App extends React.Component {
       setCurrentUser
       // collectionsArray
     } = this.props;
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapshot => {
-          // console.log(snapshot.data());
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data()
-          });
-        });
-      }
-      setCurrentUser(userAuth);
-      /**
-       * This code can be used in any project with little tweaks to 
-       * add values to the firestore. 
-       */
-      // TEMPORARY CODE TO ADD COLLECTIONS TO OUR FIREBASE (NOT REQUIRED FOR PRODUCTION)
-      // addCollectionAndDocuments(
-      //   'collections',
-      //   collectionsArray.map(({ title, items }) => ({ title, items }))
-      // );
-    });
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
+    //     userRef.onSnapshot(snapshot => {
+    //       // console.log(snapshot.data());
+    //       setCurrentUser({
+    //         id: snapshot.id,
+    //         ...snapshot.data()
+    //       });
+    //     });
+    //   }
+    //   // Once the user signs out set the current user to null
+    //   setCurrentUser(userAuth);
+    //   /**
+    //    * This code can be used in any project with little tweaks to 
+    //    * add values to the firestore. 
+    //    */
+    //   // TEMPORARY CODE TO ADD COLLECTIONS TO OUR FIREBASE (NOT REQUIRED FOR PRODUCTION)
+    //   // addCollectionAndDocuments(
+    //   //   'collections',
+    //   //   collectionsArray.map(({ title, items }) => ({ title, items }))
+    //   // );
+    // });
   }
   componentWillUnmount() {
     this.unsubscribeFromAuth();
