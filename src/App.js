@@ -6,11 +6,7 @@ import Header from './components/header/header.component';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import RegisterLoginFormPage from './pages/login-and-register/login-and-register.component';
-import {
-  auth,
-  createUserProfileDocument,
-  // addCollectionAndDocuments
-} from './firebase/firebase.utils';
+
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
@@ -22,10 +18,6 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const {
-      setCurrentUser
-      // collectionsArray
-    } = this.props;
     // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
     //   if (userAuth) {
     //     const userRef = await createUserProfileDocument(userAuth);
@@ -40,8 +32,8 @@ class App extends React.Component {
     //   // Once the user signs out set the current user to null
     //   setCurrentUser(userAuth);
     //   /**
-    //    * This code can be used in any project with little tweaks to 
-    //    * add values to the firestore. 
+    //    * This code can be used in any project with little tweaks to
+    //    * add values to the firestore.
     //    */
     //   // TEMPORARY CODE TO ADD COLLECTIONS TO OUR FIREBASE (NOT REQUIRED FOR PRODUCTION)
     //   // addCollectionAndDocuments(
@@ -75,16 +67,8 @@ class App extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  setCurrentUser: user => {
-    dispatch(setCurrentUser(user));
-  }
-});
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
+  currentUser: selectCurrentUser
   // collectionsArray: selectCollectionsForPreview
 });
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps)(App);
