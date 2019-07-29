@@ -23,9 +23,9 @@ export const signInWithGoogleFailure = error => ({
 
 // Email sign in actions
 
-export const signInWithEmailAndPasswordStart = emailAndPassword => ({
+export const signInWithEmailAndPasswordStart = emailAndPasswordObj => ({
   type: UserActionTypes.EMAIL_SIGN_IN_START,
-  payload: emailAndPassword
+  payload: emailAndPasswordObj
 });
 
 export const signInWithEmailAndPasswordSuccess = user => ({
