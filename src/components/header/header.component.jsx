@@ -15,7 +15,7 @@ import {
 } from './header.styles';
 import { signOutStart } from '../../redux/user/user.actions';
 
-const Header = ({ currentUser, hidden, signOut }) => {
+const Header = ({ currentUser, hidden, signOutStart }) => {
   const onLogout = () => {
     signOutStart();
   };

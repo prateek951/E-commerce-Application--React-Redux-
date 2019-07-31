@@ -10,12 +10,18 @@ import {
   signInFailure,
   signInSuccess,
   signOutFailure,
-  signOutSuccess
+  signOutSuccess,
+  registerUserFailure,
+  registerUserSuccess
 } from './user.actions';
 
-export function* getSnapshotFromUserAuth(userAuth) {
+export function* getSnapshotFromUserAuth(userAuth, additionalData) {
   try {
-    const userRef = yield call(createUserProfileDocument, userAuth);
+    const userRef = yield call(
+      createUserProfileDocument,
+      userAuth,
+      additionalData
+    );
     const userSnapshot = yield userRef.get();
     yield put(
       signInSuccess({
@@ -58,6 +64,15 @@ export function* signMeOut() {
   }
 }
 
+export function* registerUser({ payload: { email, password, displayName } }) {
+  try {
+    const { user } = yield auth.createUserWithEmailAndPassword(email, password);
+    yield put(registerUserSuccess({ user, additionalData: { displayName } }));
+  } catch (error) {
+    yield put(registerUserFailure(error));
+  }
+}
+
 export function* signInWithEmail({ payload: { email, password } }) {
   try {
     const { user } = yield auth.signInWithEmailAndPassword(email, password);
@@ -66,6 +81,13 @@ export function* signInWithEmail({ payload: { email, password } }) {
     yield put(signInFailure(error));
   }
 }
+
+export function* loginAfterRegisteringUser({
+  payload: { user, additionalData }
+}) {
+  yield getSnapshotFromUserAuth(user, additionalData);
+}
+
 // 1. First step is always to write saga for a start
 export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
@@ -82,11 +104,23 @@ export function* onCheckUserSession() {
 export function* onSignOutStart() {
   yield takeLatest(UserActionTypes.SIGN_OUT_START, signMeOut);
 }
+
+export function* onRegisterStart() {
+  yield takeLatest(UserActionTypes.REGISTER_USER_START, registerUser);
+}
+export function* onRegisterSuccess() {
+  yield takeLatest(
+    UserActionTypes.REGISTER_USER_SUCCESS,
+    loginAfterRegisteringUser
+  );
+}
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
     call(onEmailSignInStart),
     call(onCheckUserSession),
-    call(onSignOutStart)
+    call(onSignOutStart),
+    call(onRegisterStart),
+    call(onRegisterSuccess)
   ]);
 }

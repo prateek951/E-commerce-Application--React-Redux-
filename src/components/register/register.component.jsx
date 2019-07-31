@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import InputBox from '../input-box/input-box.component';
 import Button from '../button/button.component';
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
 import './register.styles.scss';
-export default class Register extends Component {
+import { registerUserStart } from '../../redux/user/user.actions';
+class Register extends Component {
   constructor(props) {
     super(props);
 
@@ -23,23 +25,13 @@ export default class Register extends Component {
     event.preventDefault();
     // console.log('Form submit triggered');
     const { displayName, email, password, confirmPassword } = this.state;
-    
+    const { registerUserStart } = this.props;
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await createUserProfileDocument(user, { displayName });
-      this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
+      registerUserStart(email, password, displayName);
     } catch (error) {
       console.error(error);
     }
@@ -97,3 +89,15 @@ export default class Register extends Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    registerUserStart: (email, password, displayName) => {
+      dispatch(registerUserStart({ email, password, displayName }));
+    }
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Register);
