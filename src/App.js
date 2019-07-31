@@ -8,12 +8,11 @@ import ShopPage from './pages/shop/shop.component';
 import RegisterLoginFormPage from './pages/login-and-register/login-and-register.component';
 
 import { connect } from 'react-redux';
-import { setCurrentUser } from './redux/user/user.actions';
+import { setCurrentUser, checkUserSession } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selector';
 import CheckoutPage from './pages/checkout/checkout.component';
 // import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
-
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
@@ -41,6 +40,9 @@ class App extends React.Component {
     //   //   collectionsArray.map(({ title, items }) => ({ title, items }))
     //   // );
     // });
+
+    const { checkUserSession } = this.props;
+    checkUserSession();
   }
   componentWillUnmount() {
     this.unsubscribeFromAuth();
@@ -71,4 +73,16 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
   // collectionsArray: selectCollectionsForPreview
 });
-export default connect(mapStateToProps)(App);
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    checkUserSession: () => {
+      dispatch(checkUserSession());
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
