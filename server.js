@@ -4,14 +4,15 @@
 
 const express = require('express');
 const cors = require('cors');
+const { INTERNAL_SERVER_ERROR, OK } = require('http-status-codes');
 const bodyParser = require('body-parser');
 const path = require('path');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
-const port = process.env.PORT || 5000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -26,5 +27,30 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const port = process.env.PORT || 5000;
+
+app.post('/payment', (req, res) => {
+  const {
+    token: { id },
+    amount
+  } = req.body;
+  const body = {
+    source: id,
+    amount,
+    currency: 'usd'
+  };
+  // Make a stripe charge
+  stripe.charges.create(
+    body,
+    (stripeErrorResponseObject, stripeSuccessResponseObject) => {
+      if (stripeErrorResponseObject) {
+        res
+          .status(INTERNAL_SERVER_ERROR)
+          .send({ error: stripeErrorResponseObject });
+      } else {
+        res.status(OK).send({ success: stripeSuccessResponseObject });
+      }
+    }
+  );
+});
 
 app.listen(port, () => `Server running on port ${port} 🔥`);
