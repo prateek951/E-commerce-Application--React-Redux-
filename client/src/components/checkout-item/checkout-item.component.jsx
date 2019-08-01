@@ -1,21 +1,27 @@
 import React from 'react';
-import './checkout-item.styles.scss';
 import { connect } from 'react-redux';
 import {
   removeCartItem,
   addItem,
   decreaseCartItemQuantity
 } from '../../redux/cart-item/cart-item.actions';
+import {
+  CheckoutItemContainer,
+  ImageContainer,
+  TextContainer,
+  QuantityContainer,
+  RemoveButtonContainer
+} from './checkout-item.styles';
 
 const CheckoutItem = ({ cartItem, dispatch }) => {
   const { name, price, quantity, imageUrl } = cartItem;
   return (
-    <div className="checkout-item">
-      <div className="image-container">
+    <CheckoutItemContainer>
+      <ImageContainer>
         <img src={imageUrl} alt="item" />
-      </div>
-      <span className="name">{name}</span>
-      <span className="quantity">
+      </ImageContainer>
+      <TextContainer className="name">{name}</TextContainer>
+      <QuantityContainer>
         <div
           className="arrow"
           onClick={() => dispatch(decreaseCartItemQuantity(cartItem))}
@@ -26,15 +32,15 @@ const CheckoutItem = ({ cartItem, dispatch }) => {
         <div className="arrow" onClick={() => dispatch(addItem(cartItem))}>
           &#10095;
         </div>
-      </span>
-      <span className="price">{price}</span>
-      <div
+      </QuantityContainer>
+      <TextContainer>{price}</TextContainer>
+      <RemoveButtonContainer
         className="remove-button"
         onClick={() => dispatch(removeCartItem(cartItem))}
       >
         &#10005;
-      </div>
-    </div>
+      </RemoveButtonContainer>
+    </CheckoutItemContainer>
   );
 };
 

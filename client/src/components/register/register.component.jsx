@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import InputBox from '../input-box/input-box.component';
 import Button from '../button/button.component';
-import './register.styles.scss';
 import { registerUserStart } from '../../redux/user/user.actions';
+import { SignUpContainer, SignUpTitle } from './register.styles';
 
 const Register = ({ registerUserStart }) => {
   const [
@@ -48,8 +48,8 @@ const Register = ({ registerUserStart }) => {
     confirmPassword
   } = userRegistrationCredentials;
   return (
-    <div className="sign-up">
-      <h2 className="title">I do not have a account</h2>
+    <SignUpContainer>
+      <SignUpTitle>I do not have a account</SignUpTitle>
       <span>Register with your email and password</span>
       <form className="sign-up-form" onSubmit={handleSubmit}>
         <InputBox
@@ -88,7 +88,7 @@ const Register = ({ registerUserStart }) => {
           Register
         </Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

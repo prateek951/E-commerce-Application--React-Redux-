@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import './sign-in.styles.scss';
 import InputBox from '../input-box/input-box.component';
 import Button from '../button/button.component';
 import {
   signInWithGoogleStart,
   signInWithEmailAndPasswordStart
 } from '../../redux/user/user.actions';
+import { SignInContainer, SignInTitle, ButtonsBarContainer } from './sign-in.styles';
 const SignIn = ({ signInWithEmailAndPasswordStart, signInWithGoogleStart }) => {
   const [userLoginCredentials, setUserLoginCredentials] = useState({
     email: '',
@@ -28,8 +28,8 @@ const SignIn = ({ signInWithEmailAndPasswordStart, signInWithGoogleStart }) => {
     });
   const { email, password } = userLoginCredentials;
   return (
-    <div className="sign-in">
-      <h2>I already have an account!</h2>
+    <SignInContainer>
+      <SignInTitle>I already have an account!</SignInTitle>
       <span>Sign in with your email and password</span>
 
       <form action="" onSubmit={handleSubmit}>
@@ -49,14 +49,14 @@ const SignIn = ({ signInWithEmailAndPasswordStart, signInWithGoogleStart }) => {
           value={password}
           required
         />
-        <div className="buttons">
+        <ButtonsBarContainer>
           <Button type="submit">Login</Button>
           <Button type="button" isGoogleAuth onClick={signInWithGoogleStart}>
             Google Login
           </Button>
-        </div>
+        </ButtonsBarContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 

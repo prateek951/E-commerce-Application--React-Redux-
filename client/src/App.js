@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import './App.css';
 import Header from './components/header/header.component';
 // Page components
 import HomePage from './pages/homepage/homepage.component';
@@ -12,6 +11,8 @@ import { checkUserSession } from './redux/user/user.actions';
 import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selector';
 import CheckoutPage from './pages/checkout/checkout.component';
+import { GlobalStyle } from './global.styles';
+
 // import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 const App = ({ checkUserSession, currentUser }) => {
   // unsubscribeFromAuth = null;
@@ -42,13 +43,14 @@ const App = ({ checkUserSession, currentUser }) => {
   // });
   // }
   useEffect(() => {
-      checkUserSession();
+    checkUserSession();
   }, [checkUserSession]);
   // componentWillUnmount() {
   //   this.unsubscribeFromAuth();
   // }
   return (
     <div>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
