@@ -11,7 +11,7 @@ const Shop = ({ fetchCollectionsStart, match }) => {
   useEffect(() => {
     fetchCollectionsStart();
   }, [fetchCollectionsStart]);
-
+  console.log(match.path);
   // console.log(match.path);
   return (
     <div className="shop-page">
@@ -27,7 +27,7 @@ const Shop = ({ fetchCollectionsStart, match }) => {
     </div>
   );
 };
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchCollectionsStart: () => dispatch(fetchCollectionsStart())
 });
 

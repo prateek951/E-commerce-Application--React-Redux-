@@ -31,7 +31,8 @@ export const HeaderBlockContainer = styled.div`
     width: 8%;
   }
   @media screen and (max-width: 800px) {
-    width: 22%
+    width: 22%;
+    font-size: 15px;
     &:last-child {
       width: 12%;
     }
