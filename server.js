@@ -7,6 +7,7 @@ const cors = require('cors');
 const { INTERNAL_SERVER_ERROR, OK } = require('http-status-codes');
 const bodyParser = require('body-parser');
 const path = require('path');
+const compression = require('compression');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
@@ -14,6 +15,7 @@ if (process.env.NODE_ENV !== 'production') {
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const app = express();
 
+app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
