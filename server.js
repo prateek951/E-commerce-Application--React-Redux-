@@ -7,6 +7,7 @@ const cors = require('cors');
 const { INTERNAL_SERVER_ERROR, OK } = require('http-status-codes');
 const bodyParser = require('body-parser');
 const path = require('path');
+const enforce = require('express-sslify');
 const compression = require('compression');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -18,7 +19,7 @@ const app = express();
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(enforce.HTTPS({ trustProtoHeader: true }));
 app.use(cors());
 
 if (process.env.NODE_ENV === 'production') {
